@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Detail - Sport V</title>
+  <link rel="stylesheet" href="public/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <a href="index.html" class="logo">
+          <i class="fas fa-running"></i>
+          <span>Sport V</span>
+        </a>
+        
+        <nav class="nav">
+          <a href="index.html" class="nav-link">All Products</a>
+          <a href="index.html?category=Gloves" class="nav-link">Gloves</a>
+          <a href="index.html?category=Shin Guards" class="nav-link">Shin Guards</a>
+          <a href="index.html?category=Mouth Guards" class="nav-link">Mouth Guards</a>
+          <a href="index.html?category=Groin Guards" class="nav-link">Groin Guards</a>
+          <a href="index.html?category=Shorts" class="nav-link">Shorts</a>
+        </nav>
+
+        <div class="header-actions">
+          <form action="index.html" method="GET" class="search-form">
+            <input type="text" name="search" placeholder="Search products..." class="search-input">
+            <button type="submit" class="search-btn">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
+          <a href="cart.html" class="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count" id="cartCount">0</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="container">
+      <nav class="breadcrumb" id="breadcrumb">
+        <!-- Breadcrumb will be rendered by JavaScript -->
+      </nav>
+
+      <section class="product-detail" id="productDetail">
+        <!-- Product details will be rendered by JavaScript -->
+      </section>
+
+      <!-- Related Products -->
+      <section class="related-products" id="relatedProducts">
+        <h2>Related Products</h2>
+        <div class="products-grid" id="relatedProductsGrid">
+          <!-- Related products will be rendered by JavaScript -->
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>Sport V</h3>
+          <p>Your premier destination for quality sports equipment and apparel.</p>
+        </div>
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">All Products</a></li>
+            <li><a href="index.html?category=Gloves">Gloves</a></li>
+            <li><a href="index.html?category=Shin Guards">Shin Guards</a></li>
+            <li><a href="index.html?category=Mouth Guards">Mouth Guards</a></li>
+            <li><a href="index.html?category=Groin Guards">Groin Guards</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Contact</h4>
+          <ul>
+            <li><i class="fas fa-envelope"></i> info@sportv.com</li>
+            <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+            <li><i class="fas fa-map-marker"></i> 123 Sports Street</li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Follow Us</h4>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 Sport V. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="public/js/products-data.js"></script>
+  <script src="public/js/main.js"></script>
+  <script>
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      loadProductDetail();
+    });
+
+    // Get product ID from URL
+    function getProductIdFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('id');
+    }
+
+    // Load product detail
+    function loadProductDetail() {
+      const productId = getProductIdFromUrl();
+      const product = getProductById(productId);
+
+      if (!product) {
+        document.getElementById('productDetail').innerHTML = '<p>Product not found</p>';
+        return;
+      }
+
+      // Update page title
+      document.title = `${product.name} - Sport V`;
+
+      // Render breadcrumb
+      renderBreadcrumb(product);
+
+      // Render product detail
+      renderProductDetail(product);
+
+      // Render related products
+      renderRelatedProducts(product);
+    }
+
+    // Render breadcrumb
+    function renderBreadcrumb(product) {
+      const breadcrumb = document.getElementById('breadcrumb');
+      breadcrumb.innerHTML = `
+        <a href="index.html">Home</a>
+        <span class="separator">/</span>
+        <a href="index.html">Products</a>
+        <span class="separator">/</span>
+        <a href="index.html?category=${encodeURIComponent(product.category)}">${product.category}</a>
+        <span class="separator">/</span>
+        <span class="current">${product.name}</span>
+      `;
+    }
+
+    // Render product detail
+    function renderProductDetail(product) {
+      const detail = document.getElementById('productDetail');
+      detail.innerHTML = `
+        <div class="product-detail-grid">
+          <div class="product-detail-image">
+            <img src="${product.image}" alt="${product.name}">
+          </div>
+          <div class="product-detail-info">
+            <span class="product-category">${product.category}</span>
+            <h1 class="product-title">${product.name}</h1>
+            <div class="product-rating">
+              ${renderStars(product.rating)}
+              <span>${product.rating} rating</span>
+            </div>
+            <p class="product-price-large">$${product.price.toFixed(2)}</p>
+            <p class="product-description-full">${product.description}</p>
+            
+            <div class="product-availability">
+              ${product.inStock 
+                ? '<span class="in-stock"><i class="fas fa-check-circle"></i> In Stock</span>' 
+                : '<span class="out-of-stock"><i class="fas fa-times-circle"></i> Out of Stock</span>'}
+            </div>
+
+            <div class="product-actions">
+              <div class="quantity-selector">
+                <label for="quantity">Quantity:</label>
+                <div class="quantity-controls">
+                  <button type="button" class="qty-btn" onclick="decreaseQty()">-</button>
+                  <input type="number" id="quantity" value="1" min="1" max="99">
+                  <button type="button" class="qty-btn" onclick="increaseQty()">+</button>
+                </div>
+              </div>
+              <button class="btn btn-primary btn-large add-to-cart-btn" data-product-id="${product.id}" ${!product.inStock ? 'disabled' : ''}>
+                <i class="fas fa-cart-plus"></i> Add to Cart
+              </button>
+            </div>
+
+            <div class="product-meta">
+              <div class="meta-item">
+                <i class="fas fa-truck"></i>
+                <span>Free shipping on orders over $50</span>
+              </div>
+              <div class="meta-item">
+                <i class="fas fa-undo"></i>
+                <span>30-day return policy</span>
+              </div>
+              <div class="meta-item">
+                <i class="fas fa-shield-alt"></i>
+                <span>2-year warranty</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Render stars
+    function renderStars(rating) {
+      let stars = '';
+      for (let i = 0; i < 5; i++) {
+        stars += `<i class="fas fa-star ${i < Math.floor(rating) ? 'filled' : ''}"></i>`;
+      }
+      return stars;
+    }
+
+    // Render related products
+    function renderRelatedProducts(product) {
+      const relatedProducts = products
+        .filter(p => p.category === product.category && p.id !== product.id)
+        .slice(0, 4);
+
+      const relatedSection = document.getElementById('relatedProducts');
+      
+      if (relatedProducts.length === 0) {
+        relatedSection.style.display = 'none';
+        return;
+      }
+
+      relatedSection.style.display = 'block';
+      const grid = document.getElementById('relatedProductsGrid');
+      grid.innerHTML = relatedProducts.map(p => renderProductCard(p)).join('');
+    }
+
+    // Render product card
+    function renderProductCard(product) {
+      return `
+        <div class="product-card">
+          <div class="product-image">
+            <img src="${product.image}" alt="${product.name}">
+            ${!product.inStock ? '<span class="out-of-stock">Out of Stock</span>' : ''}
+          </div>
+          <div class="product-info">
+            <span class="product-category">${product.category}</span>
+            <h3 class="product-name">${product.name}</h3>
+            <div class="product-rating">
+              ${renderStars(product.rating)}
+              <span>(${product.rating})</span>
+            </div>
+            <div class="product-footer">
+              <span class="product-price">$${product.price.toFixed(2)}</span>
+              <button class="btn btn-secondary add-to-cart" data-product-id="${product.id}" ${!product.inStock ? 'disabled' : ''}>
+                <i class="fas fa-cart-plus"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+          <a href="product-detail.html?id=${product.id}" class="product-link"></a>
+        </div>
+      `;
+    }
+
+    // Quantity controls
+    function increaseQty() {
+      const input = document.getElementById('quantity');
+      input.value = parseInt(input.value) + 1;
+    }
+    
+    function decreaseQty() {
+      const input = document.getElementById('quantity');
+      if (parseInt(input.value) > 1) {
+        input.value = parseInt(input.value) - 1;
+      }
+    }
+  </script>
+</body>
+</html>

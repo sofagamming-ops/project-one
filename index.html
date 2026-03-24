@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Products - Sport V</title>
+  <link rel="stylesheet" href="public/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <a href="index.html" class="logo">
+          <i class="fas fa-running"></i>
+          <span>Sport V</span>
+        </a>
+        
+        <nav class="nav">
+          <a href="index.html" class="nav-link">All Products</a>
+          <a href="index.html?category=Gloves" class="nav-link">Gloves</a>
+          <a href="index.html?category=Shin Guards" class="nav-link">Shin Guards</a>
+          <a href="index.html?category=Mouth Guards" class="nav-link">Mouth Guards</a>
+          <a href="index.html?category=Groin Guards" class="nav-link">Groin Guards</a>
+          <a href="index.html?category=Shorts" class="nav-link">Shorts</a>
+        </nav>
+
+        <div class="header-actions">
+          <form action="index.html" method="GET" class="search-form">
+            <input type="text" name="search" id="searchInput" placeholder="Search products..." class="search-input">
+            <button type="submit" class="search-btn">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
+          <a href="cart.html" class="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count" id="cartCount">0</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="container">
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="hero-content">
+          <h1>Welcome to Sport V</h1>
+          <p>Your premier destination for quality sports equipment and apparel</p>
+          <a href="#products" class="btn btn-primary">Shop Now</a>
+        </div>
+      </section>
+
+      <!-- Products Section -->
+      <section id="products" class="products-section">
+        <div class="section-header">
+          <h2>Our Products</h2>
+          <div class="filters">
+            <form action="index.html" method="GET" class="filter-form">
+              <select name="category" id="categoryFilter" class="filter-select">
+                <option value="">All Categories</option>
+                <option value="Gloves">Gloves</option>
+                <option value="Shin Guards">Shin Guards</option>
+                <option value="Mouth Guards">Mouth Guards</option>
+                <option value="Groin Guards">Groin Guards</option>
+                <option value="Shorts">Shorts</option>
+              </select>
+              <select name="sort" id="sortFilter" class="filter-select">
+                <option value="">Sort by</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="name">Name: A-Z</option>
+              </select>
+            </form>
+          </div>
+        </div>
+
+        <div class="search-results" id="searchResults" style="display: none;">
+          <p>Showing results for: "<strong id="searchQueryDisplay"></strong>" (<span id="searchCount">0</span> products found)</p>
+        </div>
+
+        <div class="products-grid" id="productsGrid">
+          <!-- Products will be rendered here by JavaScript -->
+        </div>
+
+        <div class="no-products" id="noProducts" style="display: none;">
+          <p>No products found matching your criteria.</p>
+        </div>
+      </section>
+
+      <!-- Features Section -->
+      <section class="features">
+        <div class="feature">
+          <i class="fas fa-shipping-fast"></i>
+          <h3>Free Shipping</h3>
+          <p>On orders over $50</p>
+        </div>
+        <div class="feature">
+          <i class="fas fa-shield-alt"></i>
+          <h3>Secure Payment</h3>
+          <p>100% secure checkout</p>
+        </div>
+        <div class="feature">
+          <i class="fas fa-undo"></i>
+          <h3>Easy Returns</h3>
+          <p>30-day return policy</p>
+        </div>
+        <div class="feature">
+          <i class="fas fa-headset"></i>
+          <h3>24/7 Support</h3>
+          <p>Dedicated support team</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>Sport V</h3>
+          <p>Your premier destination for quality sports equipment and apparel.</p>
+        </div>
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">All Products</a></li>
+            <li><a href="index.html?category=Gloves">Gloves</a></li>
+            <li><a href="index.html?category=Shin Guards">Shin Guards</a></li>
+            <li><a href="index.html?category=Mouth Guards">Mouth Guards</a></li>
+            <li><a href="index.html?category=Groin Guards">Groin Guards</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Contact</h4>
+          <ul>
+            <li><i class="fas fa-envelope"></i> info@sportv.com</li>
+            <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+            <li><i class="fas fa-map-marker"></i> 123 Sports Street</li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Follow Us</h4>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 Sport V. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="public/js/products-data.js"></script>
+  <script src="public/js/main.js"></script>
+  <script>
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      renderProducts();
+      initFilters();
+    });
+
+    // Get URL parameters
+    function getUrlParams() {
+      const params = new URLSearchParams(window.location.search);
+      return {
+        category: params.get('category') || '',
+        sort: params.get('sort') || '',
+        search: params.get('search') || ''
+      };
+    }
+
+    // Render products based on filters
+    function renderProducts() {
+      const params = getUrlParams();
+      let filteredProducts = [...products];
+
+      // Apply category filter
+      if (params.category) {
+        filteredProducts = getProductsByCategory(params.category);
+      }
+
+      // Apply search filter
+      if (params.search) {
+        filteredProducts = filteredProducts.filter(p => 
+          p.name.toLowerCase().includes(params.search.toLowerCase()) ||
+          p.category.toLowerCase().includes(params.search.toLowerCase()) ||
+          p.description.toLowerCase().includes(params.search.toLowerCase())
+        );
+        
+        // Show search results
+        document.getElementById('searchResults').style.display = 'block';
+        document.getElementById('searchQueryDisplay').textContent = params.search;
+        document.getElementById('searchCount').textContent = filteredProducts.length;
+      } else {
+        document.getElementById('searchResults').style.display = 'none';
+      }
+
+      // Apply sorting
+      if (params.sort) {
+        filteredProducts = sortProducts(filteredProducts, params.sort);
+      }
+
+      // Render products
+      const grid = document.getElementById('productsGrid');
+      const noProducts = document.getElementById('noProducts');
+
+      if (filteredProducts.length === 0) {
+        grid.innerHTML = '';
+        noProducts.style.display = 'block';
+      } else {
+        noProducts.style.display = 'none';
+        grid.innerHTML = filteredProducts.map(product => renderProductCard(product)).join('');
+      }
+
+      // Update filter selects
+      document.getElementById('categoryFilter').value = params.category;
+      document.getElementById('sortFilter').value = params.sort;
+      if (document.getElementById('searchInput')) {
+        document.getElementById('searchInput').value = params.search;
+      }
+    }
+
+    // Render a single product card
+    function renderProductCard(product) {
+      return `
+        <div class="product-card">
+          <div class="product-image">
+            <img src="${product.image}" alt="${product.name}">
+            ${!product.inStock ? '<span class="out-of-stock">Out of Stock</span>' : ''}
+          </div>
+          <div class="product-info">
+            <span class="product-category">${product.category}</span>
+            <h3 class="product-name">${product.name}</h3>
+            <div class="product-rating">
+              ${renderStars(product.rating)}
+              <span>(${product.rating})</span>
+            </div>
+            <p class="product-description">${product.description.substring(0, 100)}...</p>
+            <div class="product-footer">
+              <span class="product-price">$${product.price.toFixed(2)}</span>
+              <button class="btn btn-secondary add-to-cart" data-product-id="${product.id}" ${!product.inStock ? 'disabled' : ''}>
+                <i class="fas fa-cart-plus"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+          <a href="product-detail.html?id=${product.id}" class="product-link"></a>
+        </div>
+      `;
+    }
+
+    // Render star ratings
+    function renderStars(rating) {
+      let stars = '';
+      for (let i = 0; i < 5; i++) {
+        stars += `<i class="fas fa-star ${i < Math.floor(rating) ? 'filled' : ''}"></i>`;
+      }
+      return stars;
+    }
+
+    // Initialize filters
+    function initFilters() {
+      const categoryFilter = document.getElementById('categoryFilter');
+      const sortFilter = document.getElementById('sortFilter');
+
+      categoryFilter.addEventListener('change', applyFilters);
+      sortFilter.addEventListener('change', applyFilters);
+    }
+
+    // Apply filters and update URL
+    function applyFilters() {
+      const category = document.getElementById('categoryFilter').value;
+      const sort = document.getElementById('sortFilter').value;
+      const search = document.getElementById('searchInput')?.value || '';
+      
+      const url = new URL(window.location.href);
+      
+      if (category) {
+        url.searchParams.set('category', category);
+      } else {
+        url.searchParams.delete('category');
+      }
+      
+      if (sort) {
+        url.searchParams.set('sort', sort);
+      } else {
+        url.searchParams.delete('sort');
+      }
+      
+      if (search) {
+        url.searchParams.set('search', search);
+      } else {
+        url.searchParams.delete('search');
+      }
+      
+      window.location.href = url.toString();
+    }
+  </script>
+</body>
+</html>
