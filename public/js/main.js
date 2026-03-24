@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize cart count on page load
   updateCartCount();
 
-  // Add to cart functionality
+  // Add to cart functionality - using event delegation
   initAddToCart();
 
   // Toast notifications
@@ -38,20 +38,22 @@ function updateCartCount() {
   });
 }
 
-// Initialize add to cart buttons
+// Initialize add to cart buttons - using event delegation
 function initAddToCart() {
-  const addToCartButtons = document.querySelectorAll('.add-to-cart, .add-to-cart-btn');
-  
-  addToCartButtons.forEach(button => {
-    button.addEventListener('click', function(e) {
+  // Use event delegation on the document body
+  document.body.addEventListener('click', function(e) {
+    // Check if the clicked element or its parent is an add-to-cart button
+    const button = e.target.closest('.add-to-cart, .add-to-cart-btn');
+    
+    if (button) {
       e.preventDefault();
       
-      const productId = parseInt(this.dataset.productId);
+      const productId = parseInt(button.dataset.productId);
       const quantityInput = document.getElementById('quantity');
       const quantity = quantityInput ? parseInt(quantityInput.value) : 1;
       
       addToCart(productId, quantity);
-    });
+    }
   });
 }
 
@@ -60,6 +62,7 @@ function addToCart(productId, quantity = 1) {
   const product = getProductById(productId);
   
   if (!product) {
+    console.error('Product not found:', productId);
     showToast('Product not found', 'error');
     return;
   }
