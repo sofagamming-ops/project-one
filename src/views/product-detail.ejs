@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= product.name %> - Sport V</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <a href="/" class="logo">
+          <i class="fas fa-running"></i>
+          <span>Sport V</span>
+        </a>
+        
+        <nav class="nav">
+          <a href="/products" class="nav-link">All Products</a>
+          <a href="/products?category=Gloves" class="nav-link">Gloves</a>
+          <a href="/products?category=Shin Guards" class="nav-link">Shin Guards</a>
+          <a href="/products?category=Mouth Guards" class="nav-link">Mouth Guards</a>
+          <a href="/products?category=Groin Guards" class="nav-link">Groin Guards</a>
+          <a href="/products?category=Shorts" class="nav-link">Shorts</a>
+        </nav>
+
+        <div class="header-actions">
+          <form action="/products" method="GET" class="search-form">
+            <input type="text" name="search" placeholder="Search products..." class="search-input">
+            <button type="submit" class="search-btn">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
+          <a href="/cart" class="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count"><%= cart ? cart.reduce((sum, i) => sum + i.quantity, 0) : 0 %></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="container">
+      <nav class="breadcrumb">
+        <a href="/">Home</a>
+        <span class="separator">/</span>
+        <a href="/products">Products</a>
+        <span class="separator">/</span>
+        <a href="/products?category=<%= product.category %>"><%= product.category %></a>
+        <span class="separator">/</span>
+        <span class="current"><%= product.name %></span>
+      </nav>
+
+      <section class="product-detail">
+        <div class="product-detail-grid">
+          <div class="product-detail-image">
+            <img src="<%= product.image %>" alt="<%= product.name %>">
+          </div>
+          <div class="product-detail-info">
+            <span class="product-category"><%= product.category %></span>
+            <h1 class="product-title"><%= product.name %></h1>
+            <div class="product-rating">
+              <% for (let i = 0; i < 5; i++) { %>
+                <i class="fas fa-star <%= i < Math.floor(product.rating) ? 'filled' : '' %>"></i>
+              <% } %>
+              <span><%= product.rating %> rating</span>
+            </div>
+            <p class="product-price-large">$<%= product.price.toFixed(2) %></p>
+            <p class="product-description-full"><%= product.description %></p>
+            
+            <div class="product-availability">
+              <% if (product.inStock) { %>
+                <span class="in-stock"><i class="fas fa-check-circle"></i> In Stock</span>
+              <% } else { %>
+                <span class="out-of-stock"><i class="fas fa-times-circle"></i> Out of Stock</span>
+              <% } %>
+            </div>
+
+            <div class="product-actions">
+              <div class="quantity-selector">
+                <label for="quantity">Quantity:</label>
+                <div class="quantity-controls">
+                  <button type="button" class="qty-btn" onclick="decreaseQty()">-</button>
+                  <input type="number" id="quantity" value="1" min="1" max="99">
+                  <button type="button" class="qty-btn" onclick="increaseQty()">+</button>
+                </div>
+              </div>
+              <button class="btn btn-primary btn-large add-to-cart-btn" data-product-id="<%= product.id %>" <%= !product.inStock ? 'disabled' : '' %>>
+                <i class="fas fa-cart-plus"></i> Add to Cart
+              </button>
+            </div>
+
+            <div class="product-meta">
+              <div class="meta-item">
+                <i class="fas fa-truck"></i>
+                <span>Free shipping on orders over $50</span>
+              </div>
+              <div class="meta-item">
+                <i class="fas fa-undo"></i>
+                <span>30-day return policy</span>
+              </div>
+              <div class="meta-item">
+                <i class="fas fa-shield-alt"></i>
+                <span>2-year warranty</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Related Products -->
+      <% if (relatedProducts.length > 0) { %>
+      <section class="related-products">
+        <h2>Related Products</h2>
+        <div class="products-grid">
+          <% relatedProducts.forEach(function(p) { %>
+            <div class="product-card">
+              <div class="product-image">
+                <img src="<%= p.image %>" alt="<%= p.name %>">
+              </div>
+              <div class="product-info">
+                <span class="product-category"><%= p.category %></span>
+                <h3 class="product-name"><%= p.name %></h3>
+                <div class="product-rating">
+                  <% for (let i = 0; i < 5; i++) { %>
+                    <i class="fas fa-star <%= i < Math.floor(p.rating) ? 'filled' : '' %>"></i>
+                  <% } %>
+                  <span>(<%= p.rating %>)</span>
+                </div>
+                <div class="product-footer">
+                  <span class="product-price">$<%= p.price.toFixed(2) %></span>
+                  <button class="btn btn-secondary add-to-cart" data-product-id="<%= p.id %>">
+                    <i class="fas fa-cart-plus"></i> Add to Cart
+                  </button>
+                </div>
+              </div>
+              <a href="/product/<%= p.id %>" class="product-link"></a>
+            </div>
+          <% }); %>
+        </div>
+      </section>
+      <% } %>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>Sport V</h3>
+          <p>Your premier destination for quality sports equipment and apparel.</p>
+        </div>
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="/products">All Products</a></li>
+            <li><a href="/products?category=Gloves">Gloves</a></li>
+            <li><a href="/products?category=Shin Guards">Shin Guards</a></li>
+            <li><a href="/products?category=Mouth Guards">Mouth Guards</a></li>
+            <li><a href="/products?category=Groin Guards">Groin Guards</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Contact</h4>
+          <ul>
+            <li><i class="fas fa-envelope"></i> info@sportv.com</li>
+            <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+            <li><i class="fas fa-map-marker"></i> 123 Sports Street</li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Follow Us</h4>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 Sport V. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+  <script>
+    function increaseQty() {
+      const input = document.getElementById('quantity');
+      input.value = parseInt(input.value) + 1;
+    }
+    
+    function decreaseQty() {
+      const input = document.getElementById('quantity');
+      if (parseInt(input.value) > 1) {
+        input.value = parseInt(input.value) - 1;
+      }
+    }
+  </script>
+</body>
+</html>

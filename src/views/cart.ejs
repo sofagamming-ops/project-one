@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart - Sport V</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <a href="/" class="logo">
+          <i class="fas fa-running"></i>
+          <span>Sport V</span>
+        </a>
+        
+        <nav class="nav">
+          <a href="/products" class="nav-link">All Products</a>
+          <a href="/products?category=Gloves" class="nav-link">Gloves</a>
+          <a href="/products?category=Shin Guards" class="nav-link">Shin Guards</a>
+          <a href="/products?category=Mouth Guards" class="nav-link">Mouth Guards</a>
+          <a href="/products?category=Groin Guards" class="nav-link">Groin Guards</a>
+          <a href="/products?category=Shorts" class="nav-link">Shorts</a>
+        </nav>
+
+        <div class="header-actions">
+          <form action="/products" method="GET" class="search-form">
+            <input type="text" name="search" placeholder="Search products..." class="search-input">
+            <button type="submit" class="search-btn">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
+          <a href="/cart" class="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count"><%= cartCount %></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="container">
+      <h1 class="page-title">Shopping Cart</h1>
+
+      <% if (cart.length > 0) { %>
+      <div class="cart-grid">
+        <div class="cart-items">
+          <div class="cart-header">
+            <span>Product</span>
+            <span>Price</span>
+            <span>Quantity</span>
+            <span>Total</span>
+            <span></span>
+          </div>
+          <% cart.forEach(function(item) { %>
+            <div class="cart-item" data-product-id="<%= item.product.id %>">
+              <div class="cart-item-product">
+                <img src="<%= item.product.image %>" alt="<%= item.product.name %>">
+                <div class="cart-item-info">
+                  <h3><%= item.product.name %></h3>
+                  <span class="cart-item-category"><%= item.product.category %></span>
+                </div>
+              </div>
+              <div class="cart-item-price">$<%= item.product.price.toFixed(2) %></div>
+              <div class="cart-item-quantity">
+                <button class="qty-btn update-qty" data-action="decrease" data-product-id="<%= item.product.id %>">-</button>
+                <input type="number" value="<%= item.quantity %>" min="1" max="99" readonly>
+                <button class="qty-btn update-qty" data-action="increase" data-product-id="<%= item.product.id %>">+</button>
+              </div>
+              <div class="cart-item-total">$<%= (item.product.price * item.quantity).toFixed(2) %></div>
+              <div class="cart-item-remove">
+                <button class="remove-btn" data-product-id="<%= item.product.id %>">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          <% }); %>
+          
+          <div class="cart-actions">
+            <a href="/products" class="btn btn-secondary">
+              <i class="fas fa-arrow-left"></i> Continue Shopping
+            </a>
+            <button class="btn btn-outline clear-cart">
+              <i class="fas fa-trash"></i> Clear Cart
+            </button>
+          </div>
+        </div>
+
+        <div class="cart-summary">
+          <h2>Order Summary</h2>
+          <div class="summary-row">
+            <span>Subtotal (<%= cartCount %> items)</span>
+            <span class="summary-value">$<%= total.toFixed(2) %></span>
+          </div>
+          <div class="summary-row">
+            <span>Shipping</span>
+            <span class="summary-value"><% if (total >= 50) { %><span class="free-shipping">FREE</span><% } else { %>$9.99<% } %></span>
+          </div>
+          <div class="summary-row">
+            <span>Tax (10%)</span>
+            <span class="summary-value">$<%= (total * 0.10).toFixed(2) %></span>
+          </div>
+          <div class="summary-divider"></div>
+          <div class="summary-row summary-total">
+            <span>Total</span>
+            <span class="summary-value">$<%= total >= 50 ? (total * 1.10).toFixed(2) : (total + 9.99).toFixed(2) %></span>
+          </div>
+          
+          <button class="btn btn-primary btn-checkout" onclick="showPaymentModal()">
+            <i class="fas fa-lock"></i> Proceed to Checkout
+          </button>
+          
+          <div class="secure-checkout">
+            <i class="fas fa-shield-alt"></i>
+            <span>Secure checkout powered by Stripe</span>
+          </div>
+        </div>
+      </div>
+      <% } else { %>
+
+      <!-- Payment Modal (hidden by default) -->
+      <div id="paymentModal" class="payment-modal">
+        <div class="payment-modal-content">
+          <div class="payment-modal-header">
+            <h2><i class="fas fa-credit-card"></i> Select Payment Method</h2>
+            <button class="payment-modal-close" onclick="closePaymentModal()">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <div class="payment-modal-body">
+            <div class="payment-methods">
+              <div class="payment-method" onclick="processCheckout('credit-card')">
+                <div class="payment-icon">
+                  <i class="fas fa-credit-card"></i>
+                </div>
+                <div class="payment-info">
+                  <h3>Credit / Debit Card</h3>
+                  <p>Pay securely with Visa, Mastercard, American Express</p>
+                </div>
+                <div class="payment-check">
+                  <i class="fas fa-chevron-right"></i>
+                </div>
+              </div>
+              
+              <div class="payment-method" onclick="processCheckout('paypal')">
+                <div class="payment-icon">
+                  <i class="fab fa-paypal"></i>
+                </div>
+                <div class="payment-info">
+                  <h3>PayPal</h3>
+                  <p>Fast and secure payment via PayPal</p>
+                </div>
+                <div class="payment-check">
+                  <i class="fas fa-chevron-right"></i>
+                </div>
+              </div>
+              
+              <div class="payment-method" onclick="processCheckout('apple-pay')">
+                <div class="payment-icon">
+                  <i class="fab fa-apple"></i>
+                </div>
+                <div class="payment-info">
+                  <h3>Apple Pay</h3>
+                  <p>Quick payment with Apple Pay</p>
+                </div>
+                <div class="payment-check">
+                  <i class="fas fa-chevron-right"></i>
+                </div>
+              </div>
+              
+              <div class="payment-method" onclick="processCheckout('google-pay')">
+                <div class="payment-icon">
+                  <i class="fab fa-google-pay"></i>
+                </div>
+                <div class="payment-info">
+                  <h3>Google Pay</h3>
+                  <p>Fast and easy payment with Google Pay</p>
+                </div>
+                <div class="payment-check">
+                  <i class="fas fa-chevron-right"></i>
+                </div>
+              </div>
+              
+              <div class="payment-method" onclick="processCheckout('cash-on-delivery')">
+                <div class="payment-icon">
+                  <i class="fas fa-money-bill-wave"></i>
+                </div>
+                <div class="payment-info">
+                  <h3>Cash on Delivery</h3>
+                  <p>Pay when you receive your order</p>
+                </div>
+                <div class="payment-check">
+                  <i class="fas fa-chevron-right"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="payment-modal-footer">
+            <div class="secure-payment-note">
+              <i class="fas fa-lock"></i>
+              <span>Your payment is secure and encrypted</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="empty-cart">
+        <i class="fas fa-shopping-cart"></i>
+        <h2>Your cart is empty</h2>
+        <p>Looks like you haven't added any items to your cart yet.</p>
+        <a href="/products" class="btn btn-primary">
+          <i class="fas fa-store"></i> Start Shopping
+        </a>
+      </div>
+      <% } %>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>Sport V</h3>
+          <p>Your premier destination for quality sports equipment and apparel.</p>
+        </div>
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="/products">All Products</a></li>
+            <li><a href="/products?category=Gloves">Gloves</a></li>
+            <li><a href="/products?category=Shin Guards">Shin Guards</a></li>
+            <li><a href="/products?category=Mouth Guards">Mouth Guards</a></li>
+            <li><a href="/products?category=Groin Guards">Groin Guards</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Contact</h4>
+          <ul>
+            <li><i class="fas fa-envelope"></i> info@sportv.com</li>
+            <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+            <li><i class="fas fa-map-marker"></i> 123 Sports Street</li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Follow Us</h4>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 Sport V. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>
