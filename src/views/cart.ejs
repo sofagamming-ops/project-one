@@ -114,7 +114,7 @@
             <span class="summary-value">$<%= total >= 50 ? (total * 1.10).toFixed(2) : (total + 9.99).toFixed(2) %></span>
           </div>
           
-          <button class="btn btn-primary btn-checkout" onclick="showPaymentModal()">
+          <button class="btn btn-primary btn-checkout">
             <i class="fas fa-lock"></i> Proceed to Checkout
           </button>
           
@@ -125,92 +125,6 @@
         </div>
       </div>
       <% } else { %>
-
-      <!-- Payment Modal (hidden by default) -->
-      <div id="paymentModal" class="payment-modal">
-        <div class="payment-modal-content">
-          <div class="payment-modal-header">
-            <h2><i class="fas fa-credit-card"></i> Select Payment Method</h2>
-            <button class="payment-modal-close" onclick="closePaymentModal()">
-              <i class="fas fa-times"></i>
-            </button>
-          </div>
-          <div class="payment-modal-body">
-            <div class="payment-methods">
-              <div class="payment-method" onclick="processCheckout('credit-card')">
-                <div class="payment-icon">
-                  <i class="fas fa-credit-card"></i>
-                </div>
-                <div class="payment-info">
-                  <h3>Credit / Debit Card</h3>
-                  <p>Pay securely with Visa, Mastercard, American Express</p>
-                </div>
-                <div class="payment-check">
-                  <i class="fas fa-chevron-right"></i>
-                </div>
-              </div>
-              
-              <div class="payment-method" onclick="processCheckout('paypal')">
-                <div class="payment-icon">
-                  <i class="fab fa-paypal"></i>
-                </div>
-                <div class="payment-info">
-                  <h3>PayPal</h3>
-                  <p>Fast and secure payment via PayPal</p>
-                </div>
-                <div class="payment-check">
-                  <i class="fas fa-chevron-right"></i>
-                </div>
-              </div>
-              
-              <div class="payment-method" onclick="processCheckout('apple-pay')">
-                <div class="payment-icon">
-                  <i class="fab fa-apple"></i>
-                </div>
-                <div class="payment-info">
-                  <h3>Apple Pay</h3>
-                  <p>Quick payment with Apple Pay</p>
-                </div>
-                <div class="payment-check">
-                  <i class="fas fa-chevron-right"></i>
-                </div>
-              </div>
-              
-              <div class="payment-method" onclick="processCheckout('google-pay')">
-                <div class="payment-icon">
-                  <i class="fab fa-google-pay"></i>
-                </div>
-                <div class="payment-info">
-                  <h3>Google Pay</h3>
-                  <p>Fast and easy payment with Google Pay</p>
-                </div>
-                <div class="payment-check">
-                  <i class="fas fa-chevron-right"></i>
-                </div>
-              </div>
-              
-              <div class="payment-method" onclick="processCheckout('cash-on-delivery')">
-                <div class="payment-icon">
-                  <i class="fas fa-money-bill-wave"></i>
-                </div>
-                <div class="payment-info">
-                  <h3>Cash on Delivery</h3>
-                  <p>Pay when you receive your order</p>
-                </div>
-                <div class="payment-check">
-                  <i class="fas fa-chevron-right"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="payment-modal-footer">
-            <div class="secure-payment-note">
-              <i class="fas fa-lock"></i>
-              <span>Your payment is secure and encrypted</span>
-            </div>
-          </div>
-        </div>
-      </div>
       <div class="empty-cart">
         <i class="fas fa-shopping-cart"></i>
         <h2>Your cart is empty</h2>
