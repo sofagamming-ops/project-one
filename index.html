@@ -270,10 +270,10 @@
             </div>
             <p class="product-description">${product.description.substring(0, 100)}...</p>
             <div class="product-footer">
-              <span class="product-price">${product.price.toFixed(2)}</span>
-              <a href="javascript:void(0)" class="btn btn-secondary add-to-cart" data-product-id="${product.id}" onclick="addToCart(${product.id}, 1)" ${!product.inStock ? 'disabled' : ''}>
+              <span class="product-price">$${product.price.toFixed(2)}</span>
+              <button class="btn btn-secondary add-to-cart" data-product-id="${product.id}" ${!product.inStock ? 'disabled' : ''}>
                 <i class="fas fa-cart-plus"></i> Add to Cart
-              </a>
+              </button>
             </div>
           </div>
           <a href="product-detail.html?id=${product.id}" class="product-link"></a>
@@ -327,29 +327,6 @@
       
       window.location.href = url.toString();
     }
-    
-    // Global add to cart function for onclick handlers
-    window.addToCart = function(productId, quantity) {
-      console.log('Adding to cart:', productId, quantity);
-      const product = getProductById(productId);
-      if (product) {
-        let cart = JSON.parse(localStorage.getItem('sportv_cart') || '[]');
-        const existingItem = cart.find(item => item.product.id === productId);
-        if (existingItem) {
-          existingItem.quantity += quantity;
-        } else {
-          cart.push({ product: product, quantity: quantity });
-        }
-        localStorage.setItem('sportv_cart', JSON.stringify(cart));
-        
-        // Update cart count
-        const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-        document.getElementById('cartCount').textContent = count;
-        
-        // Show success message
-        alert('Product added to cart!');
-      }
-    };
   </script>
 </body>
 </html>
