@@ -210,9 +210,9 @@
                   <button type="button" class="qty-btn" onclick="increaseQty()">+</button>
                 </div>
               </div>
-              <button class="btn btn-primary btn-large add-to-cart-btn" data-product-id="${product.id}" ${!product.inStock ? 'disabled' : ''}>
+              <a href="javascript:void(0)" class="btn btn-primary btn-large add-to-cart-btn" onclick="addToCartFromDetail(${product.id})" ${!product.inStock ? 'disabled' : ''}>
                 <i class="fas fa-cart-plus"></i> Add to Cart
-              </button>
+              </a>
             </div>
 
             <div class="product-meta">
@@ -298,6 +298,30 @@
       const input = document.getElementById('quantity');
       if (parseInt(input.value) > 1) {
         input.value = parseInt(input.value) - 1;
+      }
+    }
+    
+    // Add to cart from product detail page
+    function addToCartFromDetail(productId) {
+      console.log('Adding to cart from detail:', productId);
+      const quantity = parseInt(document.getElementById('quantity').value) || 1;
+      const product = getProductById(productId);
+      if (product) {
+        let cart = JSON.parse(localStorage.getItem('sportv_cart') || '[]');
+        const existingItem = cart.find(item => item.product.id === productId);
+        if (existingItem) {
+          existingItem.quantity += quantity;
+        } else {
+          cart.push({ product: product, quantity: quantity });
+        }
+        localStorage.setItem('sportv_cart', JSON.stringify(cart));
+        
+        // Update cart count
+        const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+        document.getElementById('cartCount').textContent = count;
+        
+        // Show success message
+        alert('Product added to cart!');
       }
     }
   </script>
