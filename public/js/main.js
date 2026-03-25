@@ -42,17 +42,28 @@ function updateCartCount() {
 function initAddToCart() {
   // Use event delegation on the document body
   document.body.addEventListener('click', function(e) {
+    console.log('Click detected on:', e.target);
+    
     // Check if the clicked element or its parent is an add-to-cart button
     const button = e.target.closest('.add-to-cart, .add-to-cart-btn');
+    console.log('Found button:', button);
     
     if (button) {
       e.preventDefault();
+      e.stopPropagation();
       
-      const productId = parseInt(button.dataset.productId);
+      const productId = button.getAttribute('data-product-id');
+      console.log('Product ID:', productId);
+      
+      if (!productId) {
+        console.error('No product ID found on button');
+        return;
+      }
+      
       const quantityInput = document.getElementById('quantity');
       const quantity = quantityInput ? parseInt(quantityInput.value) : 1;
       
-      addToCart(productId, quantity);
+      addToCart(parseInt(productId), quantity);
     }
   });
 }
